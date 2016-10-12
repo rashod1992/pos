@@ -243,10 +243,23 @@ class HomeController extends MainController{
         if (!is_numeric($n)) return false;
 
         // now filter it;
-        if ($n > 1000000000000) return round(($n/1000000000000), 2).' T';
-        elseif ($n > 1000000000) return round(($n/1000000000), 2).' B';
-        elseif ($n > 1000000) return round(($n/1000000), 2).' M';
-        elseif ($n > 1000) return round(($n/1000), 2).' K';
+		if(isset($_SESSION['user_lang']) && $_SESSION['user_lang']==1){
+					if ($n > 1000000000000) return round(($n/1000000000000), 2).' T';
+				elseif ($n > 1000000000) return round(($n/1000000000), 2).' B';
+				elseif ($n > 1000000) return round(($n/1000000), 2).' M';
+				elseif ($n > 1000) return round(($n/1000), 2).' K';
+		}elseif(isset($_SESSION['user_lang']) && $_SESSION['user_lang']==2){
+					if ($n > 1000000000000) return ' ට්‍රිලියන '.round(($n/1000000000000), 2);
+				elseif ($n > 1000000000) return ' බිලියන '.round(($n/1000000000), 2);
+				elseif ($n > 1000000) return ' මිලියන '.round(($n/1000000), 2);
+				elseif ($n > 1000) return ' දහස් '.round(($n/1000), 2);
+		}else{
+					if ($n > 1000000000000) return round(($n/1000000000000), 2).' T';
+				elseif ($n > 1000000000) return round(($n/1000000000), 2).' B';
+				elseif ($n > 1000000) return round(($n/1000000), 2).' M';
+				elseif ($n > 1000) return round(($n/1000), 2).' K';
+		}
+        
 
         return number_format($n);
     }
@@ -254,6 +267,13 @@ class HomeController extends MainController{
 		 $api = new Home;
 
         $info = $api->customersCount();
+
+        return $info['count'];
+	}
+	public function productsCount(){
+		 $api = new Home;
+
+        $info = $api->productsCount();
 
         return $info['count'];
 	}

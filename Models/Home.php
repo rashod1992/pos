@@ -212,6 +212,18 @@ class Home extends Models{
 	
 		return $result;
     }
+	 public function productsCount(){
+        
+         $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+        $sql_string = "SELECT COUNT(*) AS count FROM pos_products WHERE pr_active";
+
+        $query = mysqli_query($mysqli,$sql_string);
+
+		$result = mysqli_fetch_array($query);	
+	
+		return $result;
+    }
     
 
 }

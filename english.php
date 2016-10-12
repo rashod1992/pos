@@ -64,5 +64,6 @@ define('CONTROL_PANEL','Control panel');
 define('FINISHED_ORDERS','Finish Orders');
 define('TOTAL_SALES','Total Sales');
 define('TOTAL_CUSTOMERS','Total Customers');
+define('TOTAL_PRODUCTS','Total Products');
 define('MORE_INFO','More Info');
 ?>

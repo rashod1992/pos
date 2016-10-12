@@ -92,6 +92,7 @@ if(isset($_SESSION['user_lang'])){
     $orders = $cms->ordersCount();
     $total_value = $cms->ordersTotalValue();
 	$customers = $cms->customersCount();
+	$products = $cms->productsCount();
     
     ?>
 
@@ -104,7 +105,7 @@ if(isset($_SESSION['user_lang'])){
           <div class="small-box bg-aqua">
             <div class="inner">
              
-              <h3><?PHP echo $orders;?></h3>
+              <h3><?PHP echo $cms->nice_number($orders);?></h3>
 
               <p><?PHP echo FINISHED_ORDERS;?></p>
             </div>
@@ -134,7 +135,7 @@ if(isset($_SESSION['user_lang'])){
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3><?PHP echo $customers;?></h3>
+              <h3><?PHP echo $cms->nice_number($customers);?></h3>
 
               <p><?PHP echo TOTAL_CUSTOMERS;?></p>
             </div>
@@ -149,14 +150,14 @@ if(isset($_SESSION['user_lang'])){
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>65</h3>
+              <h3><?PHP echo $cms->nice_number($products);?></h3>
 
-              <p>Unique Visitors</p>
+              <p><?PHP echo TOTAL_PRODUCTS;?></p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="products_list.php" class="small-box-footer"><?PHP echo MORE_INFO;?> <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
