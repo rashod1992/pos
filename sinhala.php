@@ -63,5 +63,6 @@ define('DASHBOARD','උපකරණ පුවරුව');
 define('CONTROL_PANEL','පාලන පුවරුව');
 define('FINISHED_ORDERS','සම්පූරන විකිනුම්');
 define('TOTAL_SALES','සමස්ත විකුණුම්');
+define('TOTAL_CUSTOMERS','මුළු ගනුදෙනුකරුවන්');
 define('MORE_INFO','වැඩි තොරතුරු');
 ?>

@@ -31,7 +31,7 @@ if(isset($_SESSION['user_lang'])){
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?PHP echo $cms->loadMetaValue('site_name');?> | Dashboard</title>
+  <title><?PHP echo $cms->loadMetaValue('site_name');?> | <?PHP echo DASHBOARD;?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -91,6 +91,7 @@ if(isset($_SESSION['user_lang'])){
     //loading stats
     $orders = $cms->ordersCount();
     $total_value = $cms->ordersTotalValue();
+	$customers = $cms->customersCount();
     
     ?>
 
@@ -133,14 +134,14 @@ if(isset($_SESSION['user_lang'])){
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3><?PHP echo $customers;?></h3>
 
-              <p>User Registrations</p>
+              <p><?PHP echo TOTAL_CUSTOMERS;?></p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="customer_list.php" class="small-box-footer"><?PHP echo MORE_INFO;?> <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
