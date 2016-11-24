@@ -66,4 +66,8 @@ define('TOTAL_SALES','සමස්ත විකුණුම්');
 define('TOTAL_CUSTOMERS','මුළු ගනුදෙනුකරුවන්');
 define('TOTAL_PRODUCTS','මුළු නිෂ්පාදන');
 define('MORE_INFO','වැඩි තොරතුරු');
+define('REVENUE','ආදායම');
+define('INVOICES','ඉන්වොයිසි');
+define('PROFILE_CONTROL','පරිශීලක පාලනය');
+define('LANGUAGE','භාෂාව');
 ?>

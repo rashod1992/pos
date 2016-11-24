@@ -277,6 +277,11 @@ class HomeController extends MainController{
 
         return $info['count'];
 	}
+        public function getMonthsSAles(){
+            $api = new Home;
+            $info = $api->getMonthsSAles();
+            return $info;
+        }
 
 }
 

@@ -224,6 +224,30 @@ class Home extends Models{
 	
 		return $result;
     }
+     public function getMonthsSAles(){
+         
+         $sales_count = array();
+         
+        
+         $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+         
+         for ($x = 1; $x <= 12; $x++) {
+              $jan = "SELECT SUM(or_final_total) AS total FROM pos_orders WHERE or_date between '".date('Y')."-".$x."-01' AND '".date('Y')."-".$x."-31'";
+
+                $query = mysqli_query($mysqli,$jan);
+
+                $result = mysqli_fetch_array($query);	
+               if($result['total']!=NULL){
+                   $sales_count[$x]=$result['total'];
+               }else{
+                   $sales_count[$x]=0;
+               }
+         }
+
+         
+         
+         return $sales_count;
+    }
     
 
 }

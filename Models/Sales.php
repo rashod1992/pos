@@ -414,8 +414,79 @@ class Sales extends Models{
 		return $query;
 
     }
-		public function addOtherProduct($product_name,$unitprice){
+    public function load_Custom_fields(){
 
+        
+
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	
+
+        $sql_string = "SELECT * FROM pos_custom_fields ORDER BY cu_name ";
+
+        $query = mysqli_query($mysqli,$sql_string);
+
+	return  $query;
+
+    }
+    public function get_custom_value($order_id,$custom_id){
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	$order_id = mysqli_real_escape_string($mysqli,$order_id);
+        $custom_id = mysqli_real_escape_string($mysqli,$custom_id);
+
+
+        $sql_string = "SELECT *  FROM pos_custom_values WHERE va_custom_id = '".$custom_id."' AND va_order_id = '".$order_id."'";
+
+        $query = mysqli_query($mysqli,$sql_string);
+	$result = mysqli_fetch_array($query);	
+	return $result;
+
+    }
+    public function update_custom_value($value,$value_id){
+
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        $value = mysqli_real_escape_string($mysqli,$value);
+        $value_id = mysqli_real_escape_string($mysqli,$value_id);
+		
+
+        $sql_string = "UPDATE pos_custom_values SET va_value='".$value."' WHERE va_id = '".$value_id."'";
+        $query = mysqli_query($mysqli,$sql_string);
+	return $query;
+
+    }
+    public function loadSingleCustomField($custom_id){
+        
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        $custom_id = mysqli_real_escape_string($mysqli,$custom_id);
+
+
+        $sql_string = "SELECT *  FROM pos_custom_fields WHERE cu_id = '".$custom_id."'";
+
+        $query = mysqli_query($mysqli,$sql_string);
+	$result = mysqli_fetch_array($query);	
+	return $result;
+
+    }
+    	public function InsertCustomValue($value,$custom_id,$order_id){
+
+			
+	
+	$mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+	
+	$value = mysqli_real_escape_string($mysqli,$value);
+	$custom_id = mysqli_real_escape_string($mysqli,$custom_id);
+	$order_id = mysqli_real_escape_string($mysqli,$order_id);
+	
+	
+	$sql_string = "INSERT INTO pos_custom_values (va_value,va_custom_id,va_order_id) VALUES ('".$value."','".$custom_id."','".$order_id."')";
+	
+	$query = mysqli_query($mysqli,$sql_string);
+	$query = mysqli_insert_id($mysqli);
+			
+	
+	return $query;
+
+    }
+    public function addOtherProduct($product_name,$unitprice){
 			
 	
 			$mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -431,8 +502,7 @@ class Sales extends Models{
 			
 	
 		return $query;
-
     }
 
-}
 
+}

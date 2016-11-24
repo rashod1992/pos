@@ -1,0 +1,57 @@
+<?php
+
+require('Models.php');
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+class Login extends Models{
+    
+    protected $connection;
+	
+	
+    public function __construct()
+    {
+        
+        
+    }
+	
+	public function setDb($connection)
+    {
+        
+        $this->connection = $connection;
+        
+    }
+   
+    
+    public function isValidLogin($user_name,$password){
+        
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        
+        
+        $user_name = mysqli_real_escape_string($mysqli,$user_name);
+        $password = mysqli_real_escape_string($mysqli,$password);
+        
+        
+        $sql_string = "SELECT * FROM fa_users WHERE user_name = '".$user_name."' AND user_pass='".$password."'";
+        $query = mysqli_query($mysqli,$sql_string);
+	$result = mysqli_fetch_array($query);	
+	return $result;
+    }
+    
+    public function updateSid($sid,$user_id){
+        
+        $mysqli = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        
+        
+        $sid = mysqli_real_escape_string($mysqli,$sid);
+        $user_id = mysqli_real_escape_string($mysqli,$user_id);
+        
+        
+        $sql_string = "UPDATE fa_users SET user_sid='".$sid."' WHERE user_id = '".$user_id."'";
+        $query = mysqli_query($mysqli,$sql_string);
+	
+    }
+    
+    
+}

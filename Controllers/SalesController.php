@@ -148,10 +148,39 @@ class SalesController extends MainController{
 
                 return $info;
         }
-		public function addOtherProduct($product_name,$unitprice){
+        public function load_Custom_fields(){
+                 $api = new Sales;
+		 $info = $api->load_Custom_fields();
+
+                return $info;
+        }
+        public function get_custom_value($order_id,$custom_id){
+                 $api = new Sales;
+		 $info = $api->get_custom_value($order_id,$custom_id);
+
+                return $info;
+        }
+        public function update_custom_value($value,$value_id){
+                 $api = new Sales;
+		 $info = $api->update_custom_value($value,$value_id);
+
+                return $info;
+        }
+        public function loadSingleCustomField($custom_id){
+                $api = new Sales;
+		 $info = $api->loadSingleCustomField($custom_id);
+
+                return $info;
+        }
+        public function InsertCustomValue($value,$custom_id,$order_id){
+                 $api = new Sales;
+		 $info = $api->InsertCustomValue($value,$custom_id,$order_id);
+
+                return $info;
+        }
+        public function addOtherProduct($product_name,$unitprice){
                  $api = new Sales;
 		 		$info = $api->addOtherProduct($product_name,$unitprice);
-
                 return $info;
         }
 }

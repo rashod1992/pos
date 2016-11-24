@@ -67,6 +67,12 @@ if(!empty($_POST)){
 				}else{
 					$other_form = "INVALID";
 				}
+				if(isset($_POST['quantity']) && is_numeric($_POST['quantity'])){
+					$quantity_other = $_POST['quantity'];
+				}else{
+					$quantity_other = 1;
+				}
+				
 				
 				if(!isset($other_form)){
 					//first we add a type of a product 
@@ -75,16 +81,16 @@ if(!empty($_POST)){
 					}else{
 						$unitprice = -$_POST['price'];
 					}
-					
+				$other_price = $unitprice * $quantity_other;	
 					
 					$insert_id = $cms->addOtherProduct($_POST['product'],$unitprice);
 					
 					//add the product to the order
-					$cms->addOrderProducts($insert_id,$order_id,$unitprice,1);
+					$cms->addOrderProducts($insert_id,$order_id,$other_price,$quantity_other);
 					
 					//update the cart value
 					
-					$total_amount = $order['or_total_amount'] + $unitprice;
+					$total_amount = $order['or_total_amount'] + $other_price;
 					$cms->updateCartValue($total_amount,$order_id);
 					
 					
@@ -319,7 +325,10 @@ if(!empty($_POST)){
    			Hotline : <strong>07773133397</strong><br/>
             TP : <strong>0112408413</strong><br/>
             Email : <strong>ariyarathnasuppliers@gmail.com</strong><br/>
-            WL# : <strong>TDL/B/CoL/013</strong></small>
+            WL# : <strong>TDL/B/CoL/013</strong><br/>
+           
+            
+            </small>
           </h2>
         </div>
         <!-- /.col -->
@@ -353,6 +362,37 @@ if(!empty($_POST)){
           <b>Order ID:</b> <?PHP echo $order['or_id'];?><br>
           <b>Payment Due:</b> <?PHP echo $order['or_date'];?><br>
           <b>Account:</b> <?PHP echo $order['or_customer_id'];?>
+          <?PHP
+            $custom_fiealds = $cms->load_Custom_fields();
+            foreach($custom_fiealds as $custom){
+                ?>
+          <div class="custom-<?PHP echo $custom['cu_id']; ?>">
+              <div class="custom-value-<?PHP echo $custom['cu_id']; ?>"></div>
+              
+              <?PHP if($order['or_status']==1){
+                  $customvalue = $cms->get_custom_value($order['or_id'],$custom['cu_id']);
+
+                  if($customvalue!=NULL){
+                      $value_custom = $customvalue['va_value'];
+                  }else{
+                      $value_custom = "";
+                  }
+                  ?>
+              <b><?PHP echo $custom['cu_name'];?></b> : <input type="text" id="custom-field-<?PHP echo $custom['cu_id']; ?>" value="<?PHP echo $value_custom;?>">
+              <input type="button" id="custom-but-<?PHP echo $custom['cu_id']; ?>" onclick="addcustomvalue(<?PHP echo $custom['cu_id']; ?>,<?PHP echo $order_id;?>)" value="add">
+              <?PHP }else{
+                  $customvalue = $cms->get_custom_value($order['or_id'],$custom['cu_id']);
+                  if($customvalue!=NULL){
+                  ?>
+              <b><?PHP echo $custom['cu_name'];?></b> :<?PHP echo $customvalue['va_value'];?>
+              <?PHP
+                  }
+              }?>
+          </div>
+                
+                <?PHP
+            }
+            ?>
         </div>
         <!-- /.col -->
       </div>
@@ -399,8 +439,9 @@ if(!empty($_POST)){
             <thead>
             <tr>
               <th><?PHP echo ACTION;?></th>
-              <th><?PHP PRODUCT_NAME;?></th>
-              <th><?PHP echo PRICE;?></th>
+              <th><?PHP echo PRODUCT_NAME;?></th>
+              <th><?PHP echo ADD_QUANTITY;?></th>
+              <th><?PHP echo UNIT_PRICE;?></th>
               <th></th>
             </tr>
             </thead>
@@ -412,8 +453,9 @@ if(!empty($_POST)){
               	<option value="+"><?PHP echo ADD;?></option>
                 <option value="-"><?PHP echo SUBSTRACT;?></option>
               </select></td>
-              <td><input type="text" name="product" placeholder="<?PHP PRODUCT_NAME;?>" required/></td>
-              <td>Rs.<input type="text" name="price" placeholder="<?PHP PRICE;?>" required/></td>
+              <td><input type="text" name="product" placeholder="<?PHP echo PRODUCT_NAME;?>" required/></td>
+              <td><input type="text" name="quantity" placeholder="<?PHP echo  ADD_QUANTITY;?>" value="1" required/></td>
+              <td>Rs.<input type="text" name="price" placeholder="<?PHP echo UNIT_PRICE;?>" required/></td>
               <td>
               <input type="hidden" name="form_type" value="other">
               <button type="submit" class="btn btn-primary">Submit</button>
@@ -436,6 +478,11 @@ if(!empty($_POST)){
           <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
            Thank You for doing business with us.
           </p>
+          <br/>
+          <br/>
+          .................................................................<br/>
+          (signature)
+          
         </div>
         <!-- /.col -->
         <?PHP 
@@ -591,6 +638,25 @@ $(function () {
     		var drop_value = jQuery('#cx_name').val();
 			jQuery('#cx_id').val(drop_value);
   });
+  </script>
+  <script>
+      function addcustomvalue(cust_id,order_id){
+          
+          var custom_value = $("#custom-field-"+cust_id).val();
+          var ajaxurl = "add_cutom_value.php";
+          $.post(ajaxurl, {
+					order_id: order_id,
+					cust_id: cust_id,
+					custom_value : custom_value
+			}, function(data) {
+					
+					$(".custom-value-"+cust_id).html(data);
+                                        $("#custom-but-"+cust_id).prop('value', 'update');
+				
+			});
+
+          
+      }
   </script>
 </body>
 </html>
